@@ -128,7 +128,20 @@ app$callback(
             theme(
               legend.position = 'none',
               plot.title = element_text(hjust = 0.5))
-
+        
+        chart_work <- data %>% 
+            group_by(WorkLifeBalance, Attrition) %>%
+            summarise('Proportion' = n()) %>%
+            ggplot(aes(x = WorkLifeBalance, y = Proportion, fill = Attrition)) +
+            geom_bar(position = "fill", stat = "identity") +
+            scale_y_continuous(labels = scales::percent) +
+            coord_flip() +
+            labs(y = "Proportion (%)", x = '', title = 'Work Life Balance Satisfaction') +
+            theme_minimal(base_size = 12) +
+            theme(
+                legend.position = 'none',
+                plot.title = element_text(hjust = 0.5))
+            
         subplot(ggplotly(chart_income),
                 ggplotly(chart_env),
                 ggplotly(chart_tra),
